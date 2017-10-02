@@ -16,8 +16,7 @@ def download(url):
     clean_html=''.join(re.split(r"<\!–\[if lte IE 6\]>|<\!\[endif\]–>", initial_html))  
     return clean_html
 
-def output():  
-	pass
+
 
 def pageselect(tag): #自定义的find函数
     check_classes=['SG_pgon','SG_pgnext']
@@ -47,7 +46,8 @@ def urlmanager(page_url,root_content,urls,titles):
         for span in spans:
             link= span.find('a')
             urls.append(link['href'])
-            titles.append(link.get_text().replace(':','：'))
+            cleartitle=re.sub("[\?\*\/\<\>\\\]",'',link.get_text().replace(':','：'))  #清除不能作为文件名的字符，并且将其中的冒号替换
+            titles.append(cleartitle)
         count_=count_+1
         if count_==len_page:
             break
@@ -82,7 +82,6 @@ if __name__ == '__main__':
 
     urlmanager(page_url,root_content,url,titles)
     gettext(url,texts,titles)
-    # output(titles,text,url)
-    # fout=open("text1test.html","w+")
+
    
 
